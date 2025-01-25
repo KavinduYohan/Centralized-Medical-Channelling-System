@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservation Management</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+   <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- SweetAlert CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <style>
+    body {
+      background-image: url('#'); /* Replace with your image path */
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    } 
+
+    .container {
+      margin-top: 50px;
+    }
+    h1 {
+      color: #007bff;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    table {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    th {
+      background-color: #007bff;
+      color: #fff;
+      text-align: center;
+      font-size: 1.2rem;
+      padding: 15px;
+    }
+    td {
+      text-align: center;
+      padding: 15px;
+      vertical-align: middle;
+      border-bottom: 1px solid #ddd;
+    }
+    tbody tr:hover {
+      background-color: #f1f1f1;
+      transition: background-color 0.3s ease;
+    }
+    .btn-success, .btn-danger {
+      width: 100%;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+    }
+    .btn-success:hover {
+      background-color: #28a745;
+    }
+    .btn-danger:hover {
+      background-color: #dc3545;
+    }
+    .table-responsive {
+      margin-top: 20px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .header img {
+      max-width: 150px;
+    }
+    .header h1 {
+      flex-grow: 1;
+      text-align: center;
+      margin: 0;
+    }
+    .back-button {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .btn-back {
+      padding: 10px 20px;
+      background-color: #6c757d;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-back:hover {
+      background-color: #5a6268;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header with logo and title -->
+    <div class="header">
+      <img src="Homecss\img\Asset 2.png" alt="Logo" class="img-fluid">
+      <h1>My Reservations</h1>
+    </div>
+    
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>Reservation ID</th>
+            <th>Date</th>
+            <th>Time Slot</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% reservations.forEach(reservation => { %>
+            <tr>
+              <td><%= reservation._id %></td>
+              <td><%= new Date(reservation.date).toLocaleDateString() %></td>
+              <td><%= reservation.timeSlot %></td>
+              <td>
+                <% if (reservation.status === 'accepted') { %>
+                  <span class="badge badge-success">Accepted</span>
+                <% } else if (reservation.status === 'rejected') { %>
+                  <span class="badge badge-danger">Rejected</span>
+                <% } else { %>
+                  <span class="badge badge-warning">Pending</span>
+                <% } %>
+              </td>
+              <td>
+                <form action="/status/<%= reservation._id %>/accept" method="POST" class="mr-1" onsubmit="return handleSubmit(this, 'accept');">
+                  <button type="submit" class="btn btn-success">Accept</button>
+                </form>
+                <form action="/status/<%= reservation._id %>/reject" method="POST" onsubmit="return handleSubmit(this, 'reject');">
+                  <button type="submit" class="btn btn-danger">Reject</button>
+                </form>
+                </div>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+      <!-- Back Button -->
+      <div class="back-button">
+        <button class="btn-back" onclick="goBack()">Back</button>
+      </div>
+    </div>
+
+  <!-- Bootstrap JS dependencies (jQuery, Popper.js, Bootstrap JS) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    async function handleSubmit(form, action) {
+      const formData = new FormData(form);
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        if (action === 'accept') {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Reservation has been accepted and an email has been sent.'
+          });
+        } else if (action === 'reject') {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Reservation has been rejected and an email has been sent.'
+          });
+        }
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: result.message || 'An error occurred.'
+        });
+      }
+
+      return false; // Prevent form from submitting normally
+    }
+
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+</body>
+</html>

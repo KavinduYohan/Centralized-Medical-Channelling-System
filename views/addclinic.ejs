@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Clinic Registration</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h2>New Clinic Registration</h2>
+    <form action="/addclinic" method="post" enctype="multipart/form-data">
+
+
+      <div class="form-group">
+        <label for="clinicName">Clinic Name:</label>
+        <input type="text" class="form-control" id="clinicName" name="clinicName" required>
+      </div>
+      <div class="form-group">
+        <label for="location">Location:</label>
+        <input type="text" class="form-control" id="location" name="location" required>
+      </div>
+      <div class="form-group">
+        <label for="licenceNumber">Licence Number:</label>
+        <input type="text" class="form-control" id="licenceNumber" name="licenceNumber" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="description">Short Description:</label>
+        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="services">Services:</label>
+        <textarea class="form-control" id="services" name="services" rows="3" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="clinicImage">Upload Clinic Image:</label>
+        <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
+      </div>
+      <hr>
+      <h3>Doctors' Details</h3>
+      <div class="table-responsive">
+        <table class="table" id="doctorsTable">
+          <thead>
+            <tr>
+              <th>Doctor Name</th>
+              <th>Specialization</th>
+              <th>About</th>
+              <th>SLMC Number</th>
+              <th>Image</th>
+              <th>Email</th>
+              <th>StartTime</th>
+              <th>EndTime</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" class="form-control" name="doctorDetails[0][name]" required></td>
+              <td><input type="text" class="form-control" name="doctorDetails[0][specialization]" required></td>
+              <td><input type="text" class="form-control" name="doctorDetails[0][about]" required></td>
+              <td><input type="text" class="form-control" name="doctorDetails[0][slmcNumber]" required></td>
+              <td><input type="file" class="form-control-file" name="doctorDetails[0][image]" accept="image/*" required></td>
+              <td><input type="email" class="form-control" name="doctorDetails[0][email]" required></td>
+              <td><input type="time" class="form-control" name="doctorDetails[0][startTime]" required></td>
+              <td><input type="time" class="form-control" name="doctorDetails[0][endTime]" required></td>
+            </tr>
+          </tbody>
+        </table>
+        <button type="button" class="btn btn-primary" id="addDoctor">Add Doctor</button>
+      </div>
+      <br>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    $(document).ready(function(){
+      let doctorIndex = 1;
+      $("#addDoctor").click(function(){
+        let doctorRow = `
+          <tr>
+            <td><input type="text" class="form-control" name="doctorDetails[${doctorIndex}][name]" required></td>
+            <td><input type="text" class="form-control" name="doctorDetails[${doctorIndex}][specialization]" required></td>
+            <td><input type="text" class="form-control" name="doctorDetails[${doctorIndex}][about]" required></td>
+            <td><input type="text" class="form-control" name="doctorDetails[${doctorIndex}][slmcNumber]" required></td>
+            <td><input type="file" class="form-control-file" name="doctorDetails[${doctorIndex}][image]" accept="image/*" required></td>
+            <td><input type="email" class="form-control" name="doctorDetails[${doctorIndex}][email]" required></td>
+            <td><input type="time" class="form-control" name="doctorDetails[${doctorIndex}][startTime]" required></td>
+            <td><input type="time" class="form-control" name="doctorDetails[${doctorIndex}][endTime]" required></td>
+          </tr>`;
+        $("#doctorsTable tbody").append(doctorRow);
+        doctorIndex++;
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clinic Details</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+    .table-container {
+      margin-top: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    .table th, .table td {
+      vertical-align: middle;
+    }
+    .table th {
+      background-color: #343a40;
+      color: #fff;
+    }
+    .table td button {
+      margin-right: 5px;
+    }
+    .card-title {
+      font-weight: bold;
+      color: #007bff;
+    }
+    .no-clinics {
+      text-align: center;
+      font-size: 1.2em;
+      color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <% if (clinics && clinics.length > 0) { %>
+      <div class="table-container">
+        <h2 class="text-center">Clinic Details</h2>
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Clinic Name</th>
+              <th>Location</th>
+              <th>Licence Number</th>
+              <th>Description</th>
+              <th>Services</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% clinics.forEach(clinic => { %>
+              <tr>
+                <td><%= clinic.clinicName %></td>
+                <td><%= clinic.location %></td>
+                <td><%= clinic.licenceNumber %></td>
+                <td><%= clinic.description %></td>
+                <td><%= clinic.services %></td>
+                <td>
+                  <form action="/clinic/<%= clinic._id %>/accept" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                  </form>
+                  <form action="/clinic/<%= clinic._id %>/reject" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                  </form>
+                </td>
+                
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <p class="no-clinics">No clinics available.</p>
+    <% } %>
+  </div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Doctor</title>
+    <style>
+        /* Basic styling for demonstration */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Add Doctor</h2>
+    <form id="addDoctorForm" action="/doctor11" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="clinic">Clinic:</label>
+        <select id="clinic" name="clinic">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+        </select>
+        
+        <label for="specialization">Specialization:</label>
+        <input type="text" id="specialization" name="specialization" required>
+        
+        <label for="about">About:</label>
+        <textarea id="about" name="about" rows="4"></textarea>
+        
+        <label for="slmcNumber">SLMC Number:</label>
+        <input type="text" id="slmcNumber" name="slmcNumber" required>
+        
+        <label for="image">Image URL:</label>
+        <input type="text" id="image" name="image">
+        
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

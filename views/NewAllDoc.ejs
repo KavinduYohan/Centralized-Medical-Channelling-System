@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor List</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .search-bar {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="mb-4">Doctor List</h1>
+    <!-- Search Input Field -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" class="form-control" placeholder="Search by name, specialization, or clinic">
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Image</th>
+          <th scope="col">Name</th>
+          <th scope="col">Specialization</th>
+          <th scope="col">About</th>
+          <th scope="col">SLMC Number</th>
+          <th scope="col">Clinic</th>
+        </tr>
+      </thead>
+      <tbody id="doctorTableBody">
+        <% doctors.forEach(doctor => { %>
+          <tr>
+            <td><img src="<%= doctor.image %>" alt="<%= doctor.name %>" style="width: 100px;"></td>
+            <td><%= doctor.name %></td>
+            <td><%= doctor.specialization %></td>
+            <td><%= doctor.about %></td>
+            <td><%= doctor.slmcNumber %></td>
+            <td><%= doctor.clinic %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Bootstrap JS dependencies (jQuery, Popper.js, Bootstrap JS) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- JavaScript for Search Functionality -->
+  <script>
+    document.getElementById('searchInput').addEventListener('input', function() {
+      const query = this.value.toLowerCase();
+      const rows = document.querySelectorAll('#doctorTableBody tr');
+      
+      rows.forEach(row => {
+        const name = row.children[1].textContent.toLowerCase();
+        const specialization = row.children[2].textContent.toLowerCase();
+        const clinic = row.children[5].textContent.toLowerCase();
+        
+        if (name.includes(query) || specialization.includes(query) || clinic.includes(query)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

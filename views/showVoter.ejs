@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voter List</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>Voter List</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>nameWithInitial</th>
+        <th>nic</th>
+        <th>gender</th>
+        <th>address</th>
+        <th>district</th>
+        <th>zonal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% voters.forEach(voter => { %>
+        <tr>
+          <td><%= voter.fullName %></td>
+          <td><%= voter.nameWithInitial %></td>
+          <td><%= voter.nic %></td>
+          <td><%= voter.gender %></td>
+          <td><%= voter.address %></td>
+          <td><%= voter.district %></td>
+          <td><%= voter.zonal %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</body>
+</html>

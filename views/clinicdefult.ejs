@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= clinic.name %> - Clinic Page</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    .cover-photo {
+      width: 100vw;
+      height: 300px;
+      object-fit: cover;
+    }
+    .doctor-img {
+      max-height: 200px;
+      object-fit: cover;
+    }
+    .card-title {
+      min-height: 3em;
+    }
+    .section-title {
+      border-bottom: 2px solid #007bff;
+      display: inline-block;
+    }
+    .container {
+      padding: 0 15px;
+    }
+    .header-container {
+      background-color: #007bff;
+      color: white;
+      padding: 15px 0;
+    }
+    .header-container h1 {
+      margin: 0;
+    }
+    .info-section {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border: 1px solid #dee2e6;
+      border-radius: 5px;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header-container text-center">
+    <h1><%= clinic.clinicName %></h1>
+  </header>
+
+  <!-- Cover Photo -->
+  <div class="text-center">
+    <img src="<%= clinic.image %>" alt="<%= clinic.name %> Cover Photo" class="cover-photo">
+  </div>
+
+  <div class="container">
+    <!-- Description and Services -->
+    <section class="mb-4">
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="info-section">
+            <h2 class="section-title">About Us</h2>
+            <p><%= clinic.description %></p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="info-section">
+            <h2 class="section-title">Our Services</h2>
+            <p><%= clinic.services %></p>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Doctors List -->
+    <section>
+      <h2 class="section-title">Our Doctors</h2>
+      <div class="row">
+        <% doctors.forEach(doctor => { %>
+          <div class="col-md-4 mb-4">
+            <div class="card h-100">
+              <img src="<%= doctor.image %>" class="card-img-top doctor-img" alt="<%= doctor.name %>">
+              <div class="card-body">
+                <h5 class="card-title"><%= doctor.name %></h5>
+                <p class="card-text"><strong>Specialization:</strong> <%= doctor.specialization %></p>
+                <p class="card-text"><strong>About:</strong> <%= doctor.about %></p>
+                <p class="card-text"><strong>SLMC Number:</strong> <%= doctor.slmcNumber %></p>
+                <p class="card-text"><strong>Clinic:</strong> <%= doctor.clinic %></p>
+                <!-- Reservation Button -->
+                <button class="btn btn-primary" data-toggle="modal" data-target="#reservationModal<%= doctor._id %>">
+                  Make Reservation
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reservation Modal -->
+          <div class="modal fade" id="reservationModal<%= doctor._id %>" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="reservationModalLabel">Reservation for <%= doctor.name %></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <!-- Reservation Form -->
+                  <form class="reservationForm" action="/reservationForm" method="POST">
+                    <input type="hidden" name="docID" value="<%= doctor.docID %>">
+                    <input type="hidden" name="clinicId" value="<%= clinic._id %>">
+                    <input type="hidden" name="patientId" value="<%= patientId %>">
+                    <div class="form-group">
+                      <label for="name">Your Name</label>
+                      <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email Address</label>
+                      <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="date">Preferred Date</label>
+                      <input type="date" class="form-control" id="date" name="date" required 
+                             min="<%= new Date().toISOString().split('T')[0] %>">
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="time">Preferred Time Slot</label>
+                      <select class="form-control" id="time" name="timeSlot" required>
+                        <option value="">Select a time slot...</option>
+                        <% doctor.slots.forEach(function(slot) { %>
+                          <option value="<%= slot %>"><%= slot %></option>
+                        <% }); %>
+                      </select>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="message">Message (Optional)</label>
+                      <textarea class="form-control" id="message" name="message" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Reservation</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Set the min attribute of the date input to today's date
+    document.addEventListener('DOMContentLoaded', (event) => {
+      const dateInput = document.getElementById('date');
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.setAttribute('min', today);
+    });
+  </script>
+  <!-- Bootstrap JS dependencies (jQuery, Popper.js, Bootstrap JS) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

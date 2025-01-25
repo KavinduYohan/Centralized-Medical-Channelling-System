@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Doctor</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .form-container button {
+            width: 100%;
+            margin-top: 10px;
+        }
+        .back-button {
+            background-color: #6c757d;
+            border: none;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Add Doctor</h2>
+        <form action="/BecomeDoctor" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="clinic">Clinic:</label>
+                <input type="text" class="form-control" id="clinic" name="clinic">
+            </div>
+            <div class="form-group">
+                <label for="specialization">Specialization:</label>
+                <input type="text" class="form-control" id="specialization" name="specialization" required>
+            </div>
+            <div class="form-group">
+                <label for="about">About:</label>
+                <textarea class="form-control" id="about" name="about" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="slmcNumber">SLMC Number:</label>
+                <input type="text" class="form-control" id="slmcNumber" name="slmcNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="image">Image:</label>
+                <input type="file" class="form-control-file" id="image" name="image" required>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Proof Upload:</label>
+                <input type="file" class="form-control-file" id="proof" name="proof" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="startTime">Usual Start Time:</label>
+                <input type="time" class="form-control" id="startTime" name="startTime" required>
+            </div>
+            <div class="form-group">
+                <label for="endTime">Usual End Time:</label>
+                <input type="time" class="form-control" id="endTime" name="endTime" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        
+        <!-- Back Button -->
+        <button class="btn back-button mt-3" onclick="history.back()">Back</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- SweetAlert for success messages -->
+    <% if (typeof successMessage !== 'undefined' && successMessage.length > 0) { %>
+      <script>
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: '<%= successMessage %>',
+          confirmButtonText: 'OK'
+        });
+      </script>
+    <% } %>
+
+    <!-- SweetAlert for error messages -->
+    <% if (typeof errorMessage !== 'undefined' && errorMessage.length > 0) { %>
+      <script>
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: '<%= errorMessage %>',
+          confirmButtonText: 'OK'
+        });
+      </script>
+    <% } %>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

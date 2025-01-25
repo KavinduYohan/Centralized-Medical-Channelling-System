@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .table-container {
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 20px auto;
+            width: 100%;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .even {
+            background-color: #f8f9fa;
+        }
+        .btn-group {
+            display: flex;
+        }
+        .sidebar {
+            height: 100vh;
+            background-color: #343a40;
+            color: #fff;
+            padding: 15px;
+            width: 250px;
+            position: fixed;
+        }
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 10px 0;
+        }
+        .sidebar a:hover {
+            background-color: #007bff;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card i {
+            font-size: 2.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="text-center mb-4">
+            <img src="Homecss\img\Asset 2.png" alt="Logo" class="img-fluid" style="max-width: 200px;">
+        </div>
+        <h4>Dashboard</h4>
+        <a href="/doctorrec">Doctor Request</a>
+        <a href="/clinic">Clinic Request</a>
+        <a href="/logout">Log Out</a>
+    </div>
+    
+
+        <!-- Main content -->
+        <div class="content">
+            <!-- Role Counts Section -->
+            <div class="row mb-4">
+                <!-- Total Users Card -->
+                <div class="col-md-6 col-xl-3 mb-4">
+                    <div class="card shadow border-start-success py-2">
+                        <div class="card-body">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2">
+                                    <div class="text-uppercase text-success fw-bold text-xs mb-1"><span>Total</span></div>
+                                    <div class="text-dark fw-bold h5 mb-0"><span><%= roleCounts.patient +  roleCounts.doctor + roleCounts.admin %></span></div>
+                                </div>
+                                <div class="col-auto"><i class="fas fa-users fa-2x text-gray-300"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doctor Count Card -->
+                <div class="col-md-6 col-xl-3 mb-4">
+                    <div class="card shadow py-2">
+                        <div class="card-body">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2">
+                                    <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>Doctors</span></div>
+                                    <div class="text-dark fw-bold h5 mb-0"><span><%= roleCounts.doctor %></span></div>
+                                </div>
+                                <div class="col-auto"><i class="fas fa-user-md fa-2x text-gray-300"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Patient Count Card -->
+                <div class="col-md-6 col-xl-3 mb-4">
+                    <div class="card shadow py-2">
+                        <div class="card-body">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2">
+                                    <div class="text-uppercase text-info fw-bold text-xs mb-1"><span>Patients</span></div>
+                                    <div class="text-dark fw-bold h5 mb-0"><span><%= roleCounts.patient %></span></div>
+                                </div>
+                                <div class="col-auto"><i class="fas fa-procedures fa-2x text-gray-300"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Count Card -->
+                <div class="col-md-6 col-xl-3 mb-4">
+                    <div class="card shadow py-2">
+                        <div class="card-body">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col me-2">
+                                    <div class="text-uppercase text-warning fw-bold text-xs mb-1"><span>Admins</span></div>
+                                    <div class="text-dark fw-bold h5 mb-0"><span><%= roleCounts.admin %></span></div>
+                                </div>
+                                <div class="col-auto"><i class="fas fa-user-shield fa-2x text-gray-300"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Table Section -->
+            <div class="table-container">
+                <h2 class="text-center">User Details</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>User Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Operations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% empData.forEach(data => { %>
+                                <tr class="even">
+                                    <td><%= data.name %></td>
+                                    <td><%= data.email %></td>
+                                    <td><%= data.role %></td>
+                                    <td>
+                                        <!-- <div class="btn-group" role="group" aria-label="Operations">
+                                            <a class="btn btn-primary" href="/adminedit/<%= data._id %>">Edit</a> -->
+                                            <form style="display: inline;" action="/del/<%= data._id %>?_method=DELETE" method="POST">
+                                                <button style="cursor: pointer;" type="submit" class="btn btn-danger ml-2">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS (optional, for some functionalities) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
