@@ -150,109 +150,6 @@ Vrouter.post('/status/:reservationId/accept', async (req, res) => {
 });
 
 
-
-// Vrouter.post('/status/:reservationId/accept', async (req, res) => {
-//   const { reservationId } = req.params;
-
-//   try {
-//     const reservation = await Reservation.findByIdAndUpdate(
-//       reservationId,
-//       { status: 'accepted' },
-//       { new: true }
-//     );
-
-//     if (!reservation) {
-//       return res.status(404).json({ message: 'Reservation not found.' });
-//     }
-
-//     res.status(200).json(reservation);
-//   } catch (err) {
-//     console.error('Error accepting reservation:', err);
-//     res.status(500).json({ message: 'Internal Server Error' });
-//   }
-// });
-
-// Vrouter.post('/status/:reservationId/accept', async (req, res) => {
-//   const { reservationId } = req.params;
-
-//   try {
-//     // Update the reservation status to 'accepted'
-//     const reservation = await Reservation.findByIdAndUpdate(
-//       reservationId,
-//       { status: 'accepted' },
-//       { new: true }
-//     );
-
-//     if (!reservation) {
-//       return res.status(404).json({ message: 'Reservation not found.' });
-//     }
-
-//     // Fetch doctor and patient details
-//     const doctor = await Doctor.findOne({ docID: reservation.doctorId });
-//     const patient = await Patient.findById(reservation.patientId);
-//     console.log(doctor)
-//     console.log(patient)
-
-
-
-//     if (!doctor || !patient) {
-//       return res.status(500).json({ message: 'Doctor or Patient not found.' });
-//     }
-
-//     // Set up the email data
-//     const mailOptions = {
-//       from: 'kavindumarasinghe70@gmail.com',
-//       to: patient.email,
-//       subject: 'Reservation Accepted',
-//       text: `Accepted`,
-//     };
-
-//     // Send the email and handle potential errors
-//     transporter.sendMail(mailOptions, (error, info) => {
-//       if (error) {
-//         console.error('Error sending email:', error);
-//         // Send response even if email fails
-//         return res.status(200).json({ success: true, message: 'Reservation accepted, but there was an error sending the email.' });
-//       } else {
-//         console.log('Email sent:', info.response);
-//         return res.status(200).json({ success: true, message: 'Reservation accepted and email sent successfully!' });
-//       }
-//     });
-    
-//   } catch (err) {
-//     console.error('Error accepting reservation:', err);
-//     // Ensure that the response is only sent once
-//     if (!res.headersSent) {
-//       res.status(500).json({ message: 'Internal Server Error' });
-//     }
-//   }
-// });
-
-
-
-
-// // Route to reject a reservation
-// Vrouter.post('/status/:reservationId/reject', async (req, res) => {
-//   const { reservationId } = req.params;
-
-//   try {
-//     const reservation = await Reservation.findByIdAndUpdate(
-//       reservationId,
-//       { status: 'rejected' },
-//       { new: true }
-//     );
-
-//     if (!reservation) {
-//       return res.status(404).json({ message: 'Reservation not found.' });
-//     }
-
-//     res.status(200).json(reservation);
-//   } catch (err) {
-//     console.error('Error rejecting reservation:', err);
-//     res.status(500).json({ message: 'Internal Server Error' });
-//   }
-// });
-
 Vrouter.post('/status/:reservationId/reject', async (req, res) => {
   const { reservationId } = req.params;
 
@@ -617,34 +514,6 @@ Vrouter.delete("/del/:id", async (req, res) => {
 });
 
 
-// Vrouter.delete("/del/:id", async (req, res) => {
-//   try {
-//     const userId = req.params.id;
-
-//     // First, delete the patient by userId
-//     const deletedUser = await Patient.findByIdAndDelete(userId);
-
-//     if (deletedUser) {
-//       // Now, delete the corresponding doctor whose docId matches the userId
-//       const deletedDoctor = await Doctor.findOneAndDelete({ docID: userId });
-
-//       if (deletedDoctor) {
-//         // Both patient and doctor deleted successfully
-//         res.redirect('/');
-//       } else {
-//         // Doctor not found, but patient was deleted
-//         console.warn(`Patient deleted, but no doctor found with docID: ${userId}`);
-//         res.redirect('/');
-//       }
-//     } else {
-//       // Patient not found
-//       res.status(404).send({ status: "User not found" });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send({ status: "Error deleting user", error: error.message });
-//   }
-// });
 
 
 
@@ -686,19 +555,7 @@ Vrouter.get('/clinic/:_id', async (req, res) => {
   }
 });
 
-// Vrouter.get('/home', async (req, res) => {
-//   try {
-//     // Fetch clinics from the database
-//     const clinics = await Clinic.find(); // Assuming Clinic is your model
 
-//     // Render the home page with clinics data
-//     res.render('home', { clinics });
-//   } catch (error) {
-//     console.error('Error fetching clinics:', error);
-//     req.flash('error', 'Error loading clinics');
-//     res.redirect('/');
-//   }
-// });
 
 Vrouter.post('/update-hours', async (req, res) => {
   console.log(req.body);
@@ -758,92 +615,6 @@ Vrouter.post('/clinic/:_id/reject', async (req, res) => {
   }
 });
 
-
-// Vrouter.post('/reservationForm', async (req, res) => {
-//   try {
-//     const { date, timeSlot, message, docID, patientId } = req.body;
-
-//     // Create a new reservation entry
-//     const newReservation = new Reservation({
-//       doctorId: docID,
-//       patientId,
-//       date,
-//       timeSlot,
-//       message
-//     });
-
-//     // Save the reservation to the database
-//     await newReservation.save();
-
-//     // Redirect or respond with success
-//     res.redirect('/thank-you'); // You can redirect to a thank-you page or another route
-//   } catch (error) {
-//     console.error('Error saving reservation:', error);
-//     res.status(500).send('Error processing reservation');
-//   }
-// });
-
-
-// Vrouter.post('/reservationForm', async (req, res) => {
-//   try {
-//     const { date, timeSlot, message, docID, patientId } = req.body;
-
-//     // Create a new reservation entry
-//     const newReservation = new Reservation({
-//       doctorId: docID,
-//       patientId,
-//       date,
-//       timeSlot,
-//       message
-//     });
-
-//     // Save the reservation to the database
-//     await newReservation.save();
-
-//     // Fetch doctor and patient details
-//     const doctor = await Doctor.findOne({ docID });
-//     const patient = await Patient.findById(patientId);
-
-//     if (!doctor || !patient) {
-//       return res.status(500).send('Doctor or Patient not found.');
-//     }
-
-//     // Configure the email options
-//     const mailOptions = {
-//       from: 'kavindumarasinghe70@gmail.com',
-//       to: doctor.email, // Send email to the patient
-//       subject: 'New Reservation',
-//       text: `Dear Dr. ${doctor.name},
-
-//       We are pleased to inform you that a new reservation has been made for your consultation services.
-      
-//       Reservation Details:
-//       - Date: ${date}
-//       - Time: ${timeSlot}
-//       - Patient: ${patient.name}
-      
-//       Please ensure you are available at the scheduled time to attend to the patient. If you need to reschedule or have any queries, kindly contact the clinic administration.
-      
-//       Thank you for your continued service and dedication.
-      
-//       Best regards,
-//       [Clinic Team]`
-//           };
-//     // Send the email to the patient
-//     transporter.sendMail(mailOptions, (error, info) => {
-//       if (error) {
-//         console.error('Error sending email:', error);
-//         return res.status(200).send('Reservation made, but there was an error sending the email.');
-//       } else {
-//         // Redirect or respond with success
-//         res.redirect('/patientres'); // You can redirect to a thank-you page or another route
-//       }
-//     });
-//   } catch (error) {
-//     console.error('Error saving reservation:', error);
-//     res.status(500).send('Error processing reservation');
-//   }
-// });
 
 
 Vrouter.post('/reservationForm', async (req, res) => {
