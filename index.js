@@ -18,6 +18,7 @@ let session = require('express-session');
 let flash = require('connect-flash');
 
 dotenv.config({ path: './config.env' });
+require('dotenv').config();
 
 // Use process.env.MONGO_URI instead of process.env.mongodburl
 mongoose.connect(process.env.MONGO_URI)
